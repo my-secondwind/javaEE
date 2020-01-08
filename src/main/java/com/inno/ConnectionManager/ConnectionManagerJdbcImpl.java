@@ -23,7 +23,6 @@ public class ConnectionManagerJdbcImpl implements ConnectionManager {
     public static final String POSTGRES_URL_USERS = "jdbc:postgresql://127.0.0.1:5432/mobile";
     public static final String POSTGRES_USER = "postgres";
     public static final String POSTGRES_PASSWORD = "qwerty123";
-    private static final String GET_CONNECTION = "get connection";
 
     private ConnectionManagerJdbcImpl() {
     }
@@ -39,7 +38,7 @@ public class ConnectionManagerJdbcImpl implements ConnectionManager {
     public Connection getConnection() {
         Connection connection = null;
         try {
-            LOGGER.debug(GET_CONNECTION);
+            LOGGER.debug("Getting connection to DB");
             Class.forName(POSTGRES_DRIVER);
             connection = DriverManager.getConnection(
                     POSTGRES_URL_USERS,

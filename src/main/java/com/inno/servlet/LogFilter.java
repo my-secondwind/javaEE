@@ -8,13 +8,18 @@ import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 
+/**
+ * LogFilter
+ *
+ * @author Ekaterina Belolipetskaya
+ */
 @WebFilter("/*")
 public class LogFilter implements Filter {
     private Logger logger = LoggerFactory.getLogger(LogFilter.class);
 
     @Override
     public void init(FilterConfig filterConfig) {
-        logger.info("init logFilter");
+        logger.debug("init logFilter");
     }
 
     @Override
@@ -22,14 +27,14 @@ public class LogFilter implements Filter {
             ServletException {
         HttpServletRequest req = (HttpServletRequest) servletRequest;
         String uri = "Requested Uri::" + req.getRequestURI();
-        logger.info(uri);
+        logger.debug(uri);
         String method = "Requested Method::" + req.getMethod();
-        logger.info(method);
+        logger.debug(method);
         filterChain.doFilter(servletRequest, servletResponse);
     }
 
     @Override
     public void destroy() {
-        logger.info("destroy logFilter");
+        logger.debug("destroy logFilter");
     }
 }

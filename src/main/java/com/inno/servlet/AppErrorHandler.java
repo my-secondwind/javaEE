@@ -8,6 +8,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+/**
+ * AppErrorHandler
+ *
+ * @author Ekaterina Belolipetskaya
+ */
 @WebServlet(urlPatterns = "/error", name = "errorHandler")
 public class AppErrorHandler extends HttpServlet {
     private static final long serialVersionUID = 1L;

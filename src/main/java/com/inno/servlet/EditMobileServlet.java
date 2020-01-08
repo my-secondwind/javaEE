@@ -10,6 +10,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+/**
+ * EditMobileServlet
+ *
+ * @author Ekaterina Belolipetskaya
+ */
 @WebServlet("/editmobile")
 public class EditMobileServlet extends HttpServlet {
 
@@ -27,7 +32,7 @@ public class EditMobileServlet extends HttpServlet {
         if (mobileId == null) {
             throw new ServletException("Missing parameter id");
         }
-        Mobile mobile= mobileDao.getMobileById(Integer.valueOf(mobileId));
+        Mobile mobile = mobileDao.getMobileById(Integer.valueOf(mobileId));
         req.setAttribute("mobile", mobile);
         req.setAttribute("PageTitle", "Edit Mobiles");
         req.setAttribute("PageBody", "editingform.jsp");

@@ -13,6 +13,11 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Collection;
 
+/**
+ * AllMobilesServlet
+ *
+ * @author Ekaterina Belolipetskaya
+ */
 @WebServlet(urlPatterns = "/allmobiles", name = "Mobiles")
 public class AllMobilesServlet extends HttpServlet {
     private MobileDao mobileDao;

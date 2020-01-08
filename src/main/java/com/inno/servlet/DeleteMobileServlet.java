@@ -1,7 +1,6 @@
 package com.inno.servlet;
 
 import com.inno.dao.MobileDao;
-import com.inno.pojo.Mobile;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -10,6 +9,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+/**
+ * DeleteMobileServlet
+ *
+ * @author Ekaterina Belolipetskaya
+ */
 @WebServlet("/deletemobile")
 public class DeleteMobileServlet extends HttpServlet {
 

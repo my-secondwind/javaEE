@@ -35,6 +35,7 @@ public class MobileDaoJdbcImpl implements MobileDao {
     public boolean addMobile(Mobile mobile) {
         try (Connection connection = connectionManager.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(INSERT_INTO_MOBILE)) {
+            LOGGER.debug("Adding new mobile to DB");
             preparedStatement.setString(1, mobile.getModel());
             preparedStatement.setInt(2, mobile.getPrice());
             preparedStatement.setString(3, mobile.getManufacturer());
@@ -52,6 +53,7 @@ public class MobileDaoJdbcImpl implements MobileDao {
              PreparedStatement preparedStatement = connection.prepareStatement(SELECT_FROM_MOBILE)) {
             preparedStatement.setInt(1, id);
             try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                LOGGER.debug("Getting mobile by ID from DB");
                 if (resultSet.next()) {
                     return new Mobile(
                             resultSet.getInt(1),
@@ -71,6 +73,7 @@ public class MobileDaoJdbcImpl implements MobileDao {
 
         try (Connection connection = connectionManager.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(UPDATE_MOBILE)) {
+            LOGGER.debug("Updating mobile into DB");
             preparedStatement.setString(1, mobile.getModel());
             preparedStatement.setInt(2, mobile.getPrice());
             preparedStatement.setString(3, mobile.getManufacturer());
@@ -87,6 +90,7 @@ public class MobileDaoJdbcImpl implements MobileDao {
     public boolean deleteMobileById(Integer id) {
         try (Connection connection = connectionManager.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(DELETE_FROM_MOBILE)) {
+            LOGGER.debug("Deleting mobile from DB");
             preparedStatement.setInt(1, id);
             preparedStatement.execute();
         } catch (SQLException e) {
@@ -102,6 +106,7 @@ public class MobileDaoJdbcImpl implements MobileDao {
         try (Connection connection = connectionManager.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(SELECT_ALL_FROM_MOBILE);
              ResultSet resultSet = preparedStatement.executeQuery()) {
+            LOGGER.debug("Getting all mobiles from DB");
             while (resultSet.next()) {
                 lstmb.add(new Mobile(
                         resultSet.getInt(1),

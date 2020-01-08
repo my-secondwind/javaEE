@@ -1,5 +1,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" %>
+<h1>Mobile details</h1>
 <ul class="list-group">
    <li class="list-group-item">${mobile.id}</li>
    <li class="list-group-item">${mobile.model}</li>

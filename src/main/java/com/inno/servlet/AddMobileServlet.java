@@ -10,6 +10,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+/**
+ * AddMobileServlet
+ *
+ * @author Ekaterina Belolipetskaya
+ */
 @WebServlet("/addmobile")
 public class AddMobileServlet extends HttpServlet {
 
