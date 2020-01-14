@@ -18,11 +18,11 @@ import java.util.List;
 @EJB
 public class MobileDaoJdbcImpl implements MobileDao {
     private static final Logger LOGGER = LoggerFactory.getLogger(MobileDaoJdbcImpl.class);
-    public static final String INSERT_INTO_MOBILE = "INSERT INTO mobile values (DEFAULT, ?, ?, ?)";
-    public static final String SELECT_FROM_MOBILE = "SELECT * FROM mobile WHERE id = ?";
-    public static final String SELECT_ALL_FROM_MOBILE = "SELECT * FROM mobile";
-    public static final String UPDATE_MOBILE = "UPDATE mobile SET model=?, price=?, manufacturer=? WHERE id=?";
-    public static final String DELETE_FROM_MOBILE = "DELETE FROM mobile WHERE id=?";
+    private static final String INSERT_INTO_MOBILE = "INSERT INTO mobile values (DEFAULT, ?, ?, ?)";
+    private static final String SELECT_FROM_MOBILE = "SELECT * FROM mobile WHERE id = ?";
+    private static final String SELECT_ALL_FROM_MOBILE = "SELECT * FROM mobile";
+    private static final String UPDATE_MOBILE = "UPDATE mobile SET model=?, price=?, manufacturer=? WHERE id=?";
+    private static final String DELETE_FROM_MOBILE = "DELETE FROM mobile WHERE id=?";
 
     private ConnectionManager connectionManager;
 
@@ -55,11 +55,11 @@ public class MobileDaoJdbcImpl implements MobileDao {
             try (ResultSet resultSet = preparedStatement.executeQuery()) {
                 LOGGER.debug("Getting mobile by ID from DB");
                 if (resultSet.next()) {
-                    return new Mobile(
-                            resultSet.getInt(1),
-                            resultSet.getString(2),
-                            resultSet.getInt(3),
-                            resultSet.getString(4));
+                    return new Mobile.MobileBuilder(resultSet.getInt(1)).
+                            withModel(resultSet.getString(2)).
+                            withPrice(resultSet.getInt(3)).
+                            withManufacturer(resultSet.getString(4)).
+                            build();
                 }
             }
         } catch (SQLException e) {
@@ -108,11 +108,11 @@ public class MobileDaoJdbcImpl implements MobileDao {
              ResultSet resultSet = preparedStatement.executeQuery()) {
             LOGGER.debug("Getting all mobiles from DB");
             while (resultSet.next()) {
-                lstmb.add(new Mobile(
-                        resultSet.getInt(1),
-                        resultSet.getString(2),
-                        resultSet.getInt(3),
-                        resultSet.getString(4)));
+                lstmb.add(new Mobile.MobileBuilder(resultSet.getInt(1)).
+                        withModel(resultSet.getString(2)).
+                        withPrice(resultSet.getInt(3)).
+                        withManufacturer(resultSet.getString(4)).
+                        build());
             }
             return lstmb;
         } catch (SQLException e) {

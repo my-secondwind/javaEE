@@ -18,18 +18,16 @@ public class User {
     private String description;
     private String password;
 
-    public User() {
-    }
 
-    public User(Integer id, String name, String birthday, Integer loginId, String city, String email, String description, String password) {
-        this.id = id;
-        this.birthday = LocalDate.parse(birthday);
-        this.name = name;
-        this.loginId = loginId;
-        this.city = city;
-        this.email = email;
-        this.description = description;
-        this.password = password;
+    public User(UserBuilder userBuilder) {
+        this.id = userBuilder.id;
+        this.birthday = userBuilder.birthday;
+        this.name = userBuilder.name;
+        this.loginId = userBuilder.loginId;
+        this.city = userBuilder.city;
+        this.email = userBuilder.email;
+        this.description = userBuilder.description;
+        this.password = userBuilder.password;
     }
 
     public String getPassword() {
@@ -124,5 +122,62 @@ public class User {
     public int hashCode() {
         return Objects.hash(id);
     }
+
+    public static class UserBuilder {
+        private Integer id;
+        private String name;
+        private LocalDate birthday;
+        private Integer loginId;
+        private String city;
+        private String email;
+        private String description;
+        private String password;
+
+        public UserBuilder withId(Integer id) {
+            this.id = id;
+            return this;
+        }
+
+        public UserBuilder withName(String name) {
+            this.name = name;
+            return this;
+        }
+
+        public UserBuilder withBirthday(String birthday) {
+            this.birthday = LocalDate.parse(birthday);
+            return this;
+        }
+
+        public UserBuilder withLoginId(Integer loginId) {
+            this.loginId = loginId;
+            return this;
+        }
+
+        public UserBuilder withCity(String city) {
+            this.city = city;
+            return this;
+        }
+
+        public UserBuilder withEmail(String email) {
+            this.email = email;
+            return this;
+        }
+
+        public UserBuilder withDescription(String description) {
+            this.description = description;
+            return this;
+        }
+
+        public UserBuilder withPassword(String password) {
+            this.password = password;
+            return this;
+        }
+
+        public User build() {
+            return new User(this);
+        }
+    }
+
+
 }
 

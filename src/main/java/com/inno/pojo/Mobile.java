@@ -11,19 +11,15 @@ public class Mobile {
     public Mobile() {
     }
 
-    public Mobile(Integer id, String model, Integer price, String manufacturer) {
-        this.id = id;
-        this.model = model;
-        this.price = price;
-        this.manufacturer = manufacturer;
+    public Mobile(MobileBuilder mobileBuilder) {
+        this.id = mobileBuilder.id;
+        this.model = mobileBuilder.model;
+        this.price = mobileBuilder.price;
+        this.manufacturer = mobileBuilder.manufacturer;
     }
 
     public Integer getId() {
         return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
     }
 
     public String getModel() {
@@ -71,5 +67,35 @@ public class Mobile {
     @Override
     public int hashCode() {
         return Objects.hash(id);
+    }
+
+    public static class MobileBuilder {
+        private Integer id;
+        private String model;
+        private Integer price;
+        private String manufacturer;
+
+        public MobileBuilder(Integer id) {
+            this.id = id;
+        }
+
+        public MobileBuilder withModel(String model) {
+            this.model = model;
+            return this;
+        }
+
+        public MobileBuilder withPrice(Integer price) {
+            this.price = price;
+            return this;
+        }
+
+        public MobileBuilder withManufacturer(String manufacturer) {
+            this.manufacturer = manufacturer;
+            return this;
+        }
+
+        public Mobile build() {
+            return new Mobile(this);
+        }
     }
 }

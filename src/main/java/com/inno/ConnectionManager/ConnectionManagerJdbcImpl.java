@@ -40,10 +40,7 @@ public class ConnectionManagerJdbcImpl implements ConnectionManager {
         try {
             LOGGER.debug("Getting connection to DB");
             Class.forName(POSTGRES_DRIVER);
-            connection = DriverManager.getConnection(
-                    POSTGRES_URL_USERS,
-                    POSTGRES_USER,
-                    POSTGRES_PASSWORD);
+            connection = DriverManager.getConnection(POSTGRES_URL_USERS, POSTGRES_USER, POSTGRES_PASSWORD);
         } catch (ClassNotFoundException | SQLException e) {
             LOGGER.error("Error during getting connection", e);
         }

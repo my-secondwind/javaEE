@@ -38,9 +38,10 @@ public class LoginFilter implements Filter {
 
         HttpSession session = req.getSession();
 
-        User user = new User();
-        user.setEmail(login);
-        user.setPassword(password);
+        User user = new User.UserBuilder().
+                withEmail(login).
+                withPassword(password).
+                build();
 
         if ((session != null) &&
                 (session.getAttribute("login") != null) &&

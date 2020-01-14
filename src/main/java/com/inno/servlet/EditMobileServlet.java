@@ -48,7 +48,11 @@ public class EditMobileServlet extends HttpServlet {
         String model = req.getParameter("model");
         String price = req.getParameter("price");
         String manufacturer = req.getParameter("manufacturer");
-        Mobile mobile = new Mobile(Integer.parseInt(id), model, Integer.valueOf(price), manufacturer);
+        Mobile mobile = new Mobile.MobileBuilder(Integer.parseInt(id))
+                .withModel(model)
+                .withPrice(Integer.valueOf(price))
+                .withManufacturer(manufacturer)
+                .build();
         mobileDao.updateMobileById(mobile);
 
         resp.sendRedirect(req.getContextPath() + "/showmobile?id=" + id);

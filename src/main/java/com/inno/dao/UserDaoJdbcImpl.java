@@ -17,13 +17,13 @@ public class UserDaoJdbcImpl implements UserDao {
     private static final Logger LOGGER = LoggerFactory.getLogger(UserDaoJdbcImpl.class);
     private static ConnectionManager connectionManager =
             ConnectionManagerJdbcImpl.getInstance();
-    public static final String INSERT_USER_STATEMENT = "INSERT INTO users values (DEFAULT, ?, ?, ?, ?, ?, ?, ?)";
-    public static final String SELECT_USER_BY_ID_STATEMENT = "SELECT * FROM users WHERE id = ?";
-    public static final String SELECT_USER_BY_EMAIL_PASSWORD_STATEMENT = "SELECT * FROM users WHERE email = ? AND password = ?";
-    public static final String UPDATE_USER_STATEMENT = "UPDATE users SET name = ?, birthday = ?, login_id = ?, " +
+    private static final String INSERT_USER_STATEMENT = "INSERT INTO users values (DEFAULT, ?, ?, ?, ?, ?, ?, ?)";
+    private static final String SELECT_USER_BY_ID_STATEMENT = "SELECT * FROM users WHERE id = ?";
+    private static final String SELECT_USER_BY_EMAIL_PASSWORD_STATEMENT = "SELECT * FROM users WHERE email = ? AND password = ?";
+    private static final String UPDATE_USER_STATEMENT = "UPDATE users SET name = ?, birthday = ?, login_id = ?, " +
             "city = ?, email = ?, description = ?, password = ? WHERE id = ?";
-    public static final String DELETE_USER_STATEMENT = "DELETE FROM users WHERE id = ?";
-    public static final String SELECT_ALL_FROM_USERS = "SELECT * FROM users";
+    private static final String DELETE_USER_STATEMENT = "DELETE FROM users WHERE id = ?";
+    private static final String SELECT_ALL_FROM_USERS = "SELECT * FROM users";
 
     /**
      * Add User into DB.
@@ -60,14 +60,14 @@ public class UserDaoJdbcImpl implements UserDao {
      */
     @Override
     public User getUserById(Integer id) {
-        User user = new User();
+        User user = new User.UserBuilder().build();
         try (Connection connection = connectionManager.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(SELECT_USER_BY_ID_STATEMENT)) {
             LOGGER.debug("Getting user by Id from DB");
             preparedStatement.setInt(1, id);
             ResultSet resultSet = preparedStatement.executeQuery();
             if (resultSet.next()) {
-                createUserObject(user, resultSet);
+                user = createUserObject(new User.UserBuilder(), resultSet);
             }
         } catch (SQLException e) {
             LOGGER.error("Error during getting object by Id {}", id, e);
@@ -78,19 +78,20 @@ public class UserDaoJdbcImpl implements UserDao {
     /**
      * Set object's fields according to DB info.
      *
-     * @param user      object to be filled.
-     * @param resultSet with info about object.
+     * @param userBuilder object to be filled.
+     * @param resultSet   with info about object.
      * @throws SQLException - if any SQL errors occurs.
      */
-    private void createUserObject(User user, ResultSet resultSet) throws SQLException {
-        user.setId(resultSet.getInt(1));
-        user.setName(resultSet.getString(2));
-        user.setBirthday(resultSet.getString(3));
-        user.setLoginId(resultSet.getInt(4));
-        user.setCity(resultSet.getString(5));
-        user.setEmail(resultSet.getString(6));
-        user.setDescription(resultSet.getString(7));
-        user.setPassword(resultSet.getString(8));
+    private User createUserObject(User.UserBuilder userBuilder, ResultSet resultSet) throws SQLException {
+        userBuilder.withId(resultSet.getInt(1));
+        userBuilder.withName(resultSet.getString(2));
+        userBuilder.withBirthday(resultSet.getString(3));
+        userBuilder.withLoginId(resultSet.getInt(4));
+        userBuilder.withCity(resultSet.getString(5));
+        userBuilder.withEmail(resultSet.getString(6));
+        userBuilder.withDescription(resultSet.getString(7));
+        userBuilder.withPassword(resultSet.getString(8));
+        return userBuilder.build();
     }
 
     /**
@@ -153,9 +154,7 @@ public class UserDaoJdbcImpl implements UserDao {
              ResultSet resultSet = preparedStatement.executeQuery()) {
             LOGGER.debug("Getting all users from DB");
             while (resultSet.next()) {
-                User user = new User();
-                createUserObject(user, resultSet);
-                lstmb.add(user);
+                lstmb.add(createUserObject(new User.UserBuilder(), resultSet));
             }
             return lstmb;
         } catch (SQLException e) {
@@ -166,6 +165,7 @@ public class UserDaoJdbcImpl implements UserDao {
 
     /**
      * Verify if user with tha following email and password exists.
+     *
      * @param user to be verified.
      * @return {@code true} if user with tha following email and password exists
      */
